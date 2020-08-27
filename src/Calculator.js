@@ -31,19 +31,30 @@ class Calculator extends Component {
     state = {
         num1: 0,
         num2: 0,
-        sum: 0
+        sum: 0,
+        operator: ''
     }
+    
 
     setNum = (e, num) => {
         e.preventDefault();
         this.setState({ [num]: e.target.value});
-      }
+      }  
 
-    addNum = () => {
-        let newNum = (parseInt(this.state.num1) + parseInt(this.state.num2))
-        this.setState({
-            sum: newNum
-        })
+    handleOperator = (e) => {
+        this.setState({ operator: e.target.value })
+    }  
+
+    ranNum = () => {
+        if (this.state.operator === '+') {
+         this.setState({ sum: (parseInt(this.state.num1) + parseInt(this.state.num2))})
+        } else if (this.state.operator === '-') {
+         this.setState({ sum: (parseInt(this.state.num1) - parseInt(this.state.num2))})
+        } else if (this.state.operator === '*'){
+         this.setState({ sum: (parseInt(this.state.num1) * parseInt(this.state.num2))})
+        } else if (this.state.operator === '/') {
+         this.setState({ sum: (parseInt(this.state.num1) / parseInt(this.state.num2))})
+        }
     }  
 
     render () {
@@ -57,8 +68,16 @@ class Calculator extends Component {
                     value={this.state.num1}
                     onChange={(e) => this.setNum (e, 'num1') }
                     />
+                    {/* <span>+</span> */}
+                    <label>
+                        <select value={this.state.operator} onChange={ (e) => this.handleOperator(e)}>
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">*</option>
+                        <option value="/">/</option>
+                        </select>
+                    </label>
 
-                    <span>+</span>
 
                     <input type="number" 
                     placeholder="Enter your first number"
@@ -66,7 +85,7 @@ class Calculator extends Component {
                     onChange={(e) => this.setNum (e, 'num2') }
                     />
 
-                    <button onClick={this.addNum}>=</button>
+                    <button onClick={this.ranNum}>=</button>
                     <h3>Results: {this.state.sum}</h3>
                 </div>
             </div>
